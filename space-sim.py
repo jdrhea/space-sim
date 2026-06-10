@@ -11,7 +11,7 @@ window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 G = 6.674e-11
 playback_speed = 1
 class Planet:
-    def __init__(self, x, y, color, mass, velocity):
+    def __init__(self, x, y, color, mass, velocity, density):
         self.colorVals = color
         self.y_displacement = 0
         self.x_displacement = 0
@@ -24,6 +24,8 @@ class Planet:
         self.mass = mass
         self.collide = False
         self.perpendicularVelocity = velocity
+        self.volume = mass/density
+        self.radius = math.cbrt(.75*self.volume/math.pi) / 1e6
 
     def setInitialVelocity(self, planets):
         for other in planets:
@@ -81,13 +83,13 @@ class Planet:
         self.pos_x = self.origin_x + self.x_displacement
         self.pos_y = self.origin_y + self.y_displacement
     def drawPlanet(self, window):
-        planet = pygame.Rect(self.pos_x, self.pos_y, 30, 30)
+        planet = pygame.Rect(self.pos_x, self.pos_y, self.radius*2, self.radius*2)
         radius = planet.width // 2
         pygame.draw.circle(window, (self.colorVals), planet.center, 2*radius)
 
-center = Planet(SCREEN_WIDTH/2,SCREEN_HEIGHT/2, (200,125,125), 1e30, 0)
-planet1 = Planet(6*SCREEN_WIDTH/8,SCREEN_HEIGHT/2,(25,125,250), 1e24, math.sqrt((G*1e30)/((SCREEN_WIDTH/4)*1e6))/1000)
-planet2 = Planet(5*SCREEN_WIDTH/8,SCREEN_HEIGHT/2, (250,125,25), 1e22, math.sqrt((G*1e30)/((SCREEN_WIDTH/8)*1e6))/1000)
+center = Planet(SCREEN_WIDTH/2,SCREEN_HEIGHT/2, (200,125,125), 1e30, 0,500000)
+planet1 = Planet(6*SCREEN_WIDTH/8,SCREEN_HEIGHT/2,(25,125,250), 1e24, math.sqrt((G*1e30)/((SCREEN_WIDTH/4)*1e6))/1000,5000)
+planet2 = Planet(5*SCREEN_WIDTH/8,SCREEN_HEIGHT/2, (250,125,25), 1e22, math.sqrt((G*1e30)/((SCREEN_WIDTH/8)*1e6))/1000,30)
 
 planets = [planet1,planet2, center]
 
