@@ -1,5 +1,6 @@
 import pygame
 import math
+import random
 
 SCREEN_WIDTH = 1920
 SCREEN_HEIGHT = 1080
@@ -70,7 +71,7 @@ class Planet:
             # accumulate accelerations from all other bodies
             acceleration_y += gravitational_acceleration * (dy_meters / distance_meters)
             acceleration_x += gravitational_acceleration * (dx_meters / distance_meters)
-            print(math.sqrt((G*1e30)/((SCREEN_WIDTH/4)*1e6))/1000000)
+            print(distance)
 
 
         self.x_velocity += acceleration_x * dt
@@ -85,13 +86,16 @@ class Planet:
     def drawPlanet(self, window):
         planet = pygame.Rect(self.pos_x, self.pos_y, self.radius*2, self.radius*2)
         radius = planet.width // 2
-        pygame.draw.circle(window, (self.colorVals), planet.center, 2*radius)
+        pygame.draw.circle(window, (self.colorVals), (planet.centerx - radius,planet.centery - radius), 2*radius)
 
-center = Planet(SCREEN_WIDTH/2,SCREEN_HEIGHT/2, (200,125,125), 1e30, 0,500000)
+center = Planet(SCREEN_WIDTH/2,SCREEN_HEIGHT/2, (200,125,125), 1e30, 0,10000000)
 planet1 = Planet(6*SCREEN_WIDTH/8,SCREEN_HEIGHT/2,(25,125,250), 1e24, math.sqrt((G*1e30)/((SCREEN_WIDTH/4)*1e6))/1000,5000)
 planet2 = Planet(5*SCREEN_WIDTH/8,SCREEN_HEIGHT/2, (250,125,25), 1e22, math.sqrt((G*1e30)/((SCREEN_WIDTH/8)*1e6))/1000,30)
+planet3 = Planet(6.5*SCREEN_WIDTH/8,SCREEN_HEIGHT/2, (25,200,125), 1e23, math.sqrt((G*1e30)/((2.5*SCREEN_WIDTH/8)*1e6))/1000,30)
+planet4 = Planet(7.5*SCREEN_WIDTH/8,SCREEN_HEIGHT/2, (200,200,125), 1e25, math.sqrt((G*1e30)/((3.5*SCREEN_WIDTH/8)*1e6))/1000,3000)
+rougeStar = Planet(SCREEN_WIDTH,SCREEN_HEIGHT, (200,200,0), 1e29, 100,3000000)
 
-planets = [planet1,planet2, center]
+planets = [planet1,planet2,planet3,planet4, center]
 
 for p in planets:
     p.setInitialVelocity(planets)
@@ -104,6 +108,11 @@ while True:
 
     raw_dt = clock.tick(120) / 1000
     dt = playback_speed * raw_dt
+
+    if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.button == 1: 
+            x_pos,y_pos = event.pos
+            planets.append(Planet(x_pos,y_pos, (random.randint(0,255),random.randint(0,255),random.randint(0,255)), 1e23, math.sqrt((G*1e30)/(abs(x_pos - SCREEN_WIDTH/2)*1e6))/1000,50))
     
     
     window.fill("black")
