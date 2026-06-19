@@ -68,9 +68,7 @@ class Planet:
             acceleration_x += self.gravitational_acceleration * (dx / distance)
 
             self.orbital_velocity = math.sqrt((G*1e30)/(abs(self.distance_to_center)))
-
-            if self.orbital_velocity != 0 or self.perpendicularVelocity != 0:
-                self.orbitalEccentricity =  1-abs((self.perpendicularVelocity/self.orbital_velocity)**2 - 1)
+            self.orbitalEccentricity =  1-abs((self.perpendicularVelocity/self.orbital_velocity)**2 - 1)
 
 
         self.x_velocity += acceleration_x * dt
@@ -96,7 +94,7 @@ planet3 = Planet(6.5*SCREEN_WIDTH/8,SCREEN_HEIGHT/2, (25,200,125), 1e23, math.sq
 planet4 = Planet(7.5*SCREEN_WIDTH/8,SCREEN_HEIGHT/2, (200,200,125), 1e25, math.sqrt((G*center.mass)/((3.5*SCREEN_WIDTH/8)*METERS_CONVERSION)),3000)
 rougeStar = Planet(SCREEN_WIDTH,SCREEN_HEIGHT, (200,200,0), 5e29, 100,3000000)
 
-planets = [center,planet1,planet2,planet3,planet4,rougeStar]
+planets = [center,planet1,planet2,planet3,planet4]
 XposText = font.render("", True, 'white')
 YposText = font.render("", True, 'white')
 orbitalDistance = font.render("", True, 'white')
