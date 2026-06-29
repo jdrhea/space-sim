@@ -2,8 +2,8 @@ import pygame
 import math
 import random
 
-SCREEN_WIDTH = 1920
-SCREEN_HEIGHT = 1080
+SCREEN_WIDTH = 1920/1.5
+SCREEN_HEIGHT = 1080/1.5
 
 pygame.init()
 clock = pygame.time.Clock()
