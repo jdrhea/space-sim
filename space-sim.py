@@ -25,6 +25,10 @@ class Planet:
         self.perpendicularVelocity = velocity
         self.volume = mass/density
         self.radius = math.cbrt(.75*self.volume/math.pi) / 1e6
+        self.distance_to_center = 0
+        self.gravitational_acceleration = 0
+        self.orbital_velocity = 0
+        self.orbitalEccentricity = 0
 
     def setInitialVelocity(self):
         dx = center.pos_x - self.pos_x
